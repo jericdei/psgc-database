@@ -5,7 +5,6 @@ namespace Jericdei\PsgcDatabase;
 use Jericdei\PsgcDatabase\Commands\DownloadPsgcLatestDataCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Jericdei\PsgcDatabase\Commands\PsgcDatabaseCommand;
 
 class PsgcDatabaseServiceProvider extends PackageServiceProvider
 {

@@ -2,16 +2,16 @@
 
 namespace Jericdei\PsgcDatabase\Commands;
 
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Jericdei\PsgcDatabase\Models\Barangay;
 use Jericdei\PsgcDatabase\Models\City;
 use Jericdei\PsgcDatabase\Models\Municipality;
 use Jericdei\PsgcDatabase\Models\Province;
 use Jericdei\PsgcDatabase\Models\Region;
 use Jericdei\PsgcDatabase\Models\SubMunicipality;
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Spatie\SimpleExcel\SimpleExcelReader;
 
 use function Laravel\Prompts\confirm;
@@ -40,7 +40,7 @@ class ConvertToDatabaseCommand extends Command
         if (Region::count() !== 0) {
             $confirm = confirm('PSGC database is not empty. Do you want to remove all data?');
 
-            if (!$confirm) {
+            if (! $confirm) {
                 $this->error('Action cancelled.');
 
                 return;
@@ -56,9 +56,9 @@ class ConvertToDatabaseCommand extends Command
             $this->info('All data has been removed.');
         }
 
-        $file = storage_path("app/public/psgc/latest.xlsx");
+        $file = storage_path('app/public/psgc/latest.xlsx');
 
-        if (!File::exists($file)) {
+        if (! File::exists($file)) {
             $this->info('Downloading latest PSGC file...');
             $this->call('psgc:dl-latest');
         }
@@ -66,8 +66,8 @@ class ConvertToDatabaseCommand extends Command
         $this->info('Reading PSGC Excel file...');
 
         $worksheet = Cache::rememberForever(
-            "psgc-latest",
-            fn() => SimpleExcelReader::create($file)->fromSheetName('PSGC')->getRows()->toArray()
+            'psgc-latest',
+            fn () => SimpleExcelReader::create($file)->fromSheetName('PSGC')->getRows()->toArray()
         );
 
         array_shift($worksheet);
@@ -102,7 +102,7 @@ class ConvertToDatabaseCommand extends Command
                 'old_name' => $row['Old names'] ? trim($row['Old names']) : null,
             ];
 
-            DB::transaction(fn() => match ($type) {
+            DB::transaction(fn () => match ($type) {
                 'reg' => Region::create($data),
                 'prov' => Province::create($data),
                 'mun' => Municipality::create($data),

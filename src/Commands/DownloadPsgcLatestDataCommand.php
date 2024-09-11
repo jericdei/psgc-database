@@ -31,7 +31,7 @@ class DownloadPsgcLatestDataCommand extends Command
 
         $excel = Http::connectTimeout(999999)
             ->withOptions([
-                'progress' => fn() => $spinner->advance()
+                'progress' => fn () => $spinner->advance(),
             ])
             ->get($link->attr('href'))
             ->body();
@@ -41,7 +41,7 @@ class DownloadPsgcLatestDataCommand extends Command
 
         $this->info('Storing the file...');
 
-        Storage::disk('public')->put("psgc/latest.xlsx", $excel);
+        Storage::disk('public')->put('psgc/latest.xlsx', $excel);
 
         $this->info('PSGC file has been downloaded successfully!');
 
