@@ -23,7 +23,7 @@ class ConvertToDatabaseCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'psgc:convert';
+    protected $signature = 'psgc-db:convert';
 
     /**
      * The console command description.
@@ -67,7 +67,7 @@ class ConvertToDatabaseCommand extends Command
 
         $worksheet = Cache::rememberForever(
             'psgc-latest',
-            fn () => SimpleExcelReader::create($file)->fromSheetName('PSGC')->getRows()->toArray()
+            fn() => SimpleExcelReader::create($file)->fromSheetName('PSGC')->getRows()->toArray()
         );
 
         array_shift($worksheet);
@@ -102,7 +102,7 @@ class ConvertToDatabaseCommand extends Command
                 'old_name' => $row['Old names'] ? trim($row['Old names']) : null,
             ];
 
-            DB::transaction(fn () => match ($type) {
+            DB::transaction(fn() => match ($type) {
                 'reg' => Region::create($data),
                 'prov' => Province::create($data),
                 'mun' => Municipality::create($data),

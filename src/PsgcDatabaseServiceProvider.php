@@ -2,6 +2,7 @@
 
 namespace Jericdei\PsgcDatabase;
 
+use Jericdei\PsgcDatabase\Commands\ConvertToDatabaseCommand;
 use Jericdei\PsgcDatabase\Commands\DownloadPsgcLatestDataCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -28,6 +29,7 @@ class PsgcDatabaseServiceProvider extends PackageServiceProvider
             )
             ->hasCommands(
                 DownloadPsgcLatestDataCommand::class,
+                ConvertToDatabaseCommand::class
             );
     }
 }
