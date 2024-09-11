@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Jericdei\PsgcDatabase\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class PsgcDatabaseCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'psgc-database';
 
     public $description = 'My command';
 
