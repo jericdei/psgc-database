@@ -2,6 +2,7 @@
 
 namespace Jericdei\PsgcDatabase;
 
+use Jericdei\PsgcDatabase\Commands\DownloadPsgcLatestDataCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Jericdei\PsgcDatabase\Commands\PsgcDatabaseCommand;
@@ -18,8 +19,16 @@ class PsgcDatabaseServiceProvider extends PackageServiceProvider
         $package
             ->name('psgc-database')
             ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_psgc_database_table')
-            ->hasCommand(PsgcDatabaseCommand::class);
+            ->hasMigrations(
+                'create_regions_table',
+                'create_provinces_table',
+                'create_municipalities_table',
+                'create_sub_municipalities_table',
+                'create_barangays_table',
+                'create_cities_table',
+            )
+            ->hasCommands(
+                DownloadPsgcLatestDataCommand::class,
+            );
     }
 }
