@@ -37,24 +37,22 @@ class ConvertToDatabaseCommand extends Command
      */
     public function handle()
     {
-        if (Region::count() !== 0) {
-            $confirm = confirm('PSGC database is not empty. Do you want to remove all data?');
+        $confirm = confirm('Do you want to remove all data first?');
 
-            if (! $confirm) {
-                $this->error('Action cancelled.');
+        if (! $confirm) {
+            $this->error('Action cancelled.');
 
-                return;
-            }
-
-            DB::table('regions')->truncate();
-            DB::table('provinces')->truncate();
-            DB::table('cities')->truncate();
-            DB::table('municipalities')->truncate();
-            DB::table('sub_municipalities')->truncate();
-            DB::table('barangays')->truncate();
-
-            $this->info('All data has been removed.');
+            return;
         }
+
+        DB::table('regions')->truncate();
+        DB::table('provinces')->truncate();
+        DB::table('cities')->truncate();
+        DB::table('municipalities')->truncate();
+        DB::table('sub_municipalities')->truncate();
+        DB::table('barangays')->truncate();
+
+        $this->info('All data has been removed.');
 
         $file = storage_path('app/public/psgc/latest.xlsx');
 
