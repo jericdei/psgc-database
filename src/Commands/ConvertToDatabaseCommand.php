@@ -63,12 +63,11 @@ class ConvertToDatabaseCommand extends Command
 
         $this->info('Reading PSGC Excel file...');
 
+        /** @var array $worksheet */
         $worksheet = Cache::rememberForever(
             'psgc-latest',
             fn() => SimpleExcelReader::create($file)->fromSheetName('PSGC')->getRows()->toArray()
         );
-
-        array_shift($worksheet);
 
         $this->info('Writing to database...');
 
