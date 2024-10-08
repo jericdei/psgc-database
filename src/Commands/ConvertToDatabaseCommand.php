@@ -60,7 +60,7 @@ class ConvertToDatabaseCommand extends Command
 
         if (! File::exists($file)) {
             $this->info('Downloading latest PSGC file...');
-            $this->call('psgc:dl-latest');
+            $this->call('psgc-db:download');
         }
 
         $this->info('Reading PSGC Excel file...');
@@ -73,6 +73,10 @@ class ConvertToDatabaseCommand extends Command
         array_shift($worksheet);
 
         $this->info('Writing to database...');
+
+        $bar = $this->output->createProgressBar(count($worksheet));
+
+        $bar->start();
 
         // Guide
         // 0 -> code
@@ -112,15 +116,10 @@ class ConvertToDatabaseCommand extends Command
                 default => null,
             });
 
-            $this->info("Saved to database: $type - {$data['name']}");
-
-            if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-                system('cls');
-            } else {
-                system('clear');
-            }
+            $bar->advance();
         }
 
+        $bar->finish();
         $this->newLine(2);
         $this->info('Done~!');
     }
