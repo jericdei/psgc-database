@@ -113,6 +113,12 @@ class ConvertToDatabaseCommand extends Command
             });
 
             $this->info("Saved to database: $type - {$data['name']}");
+
+            if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+                system('cls');
+            } else {
+                system('clear');
+            }
         }
 
         $this->newLine(2);

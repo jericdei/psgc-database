@@ -37,7 +37,7 @@ class City extends Model
 
     public function barangays(): HasMany
     {
-        return $this->hasMany(Barangay::class, 'city_code', 'municipality_code');
+        return $this->hasMany(Barangay::class, 'province_code', 'province_code');
     }
 
     public function subMunicipalities(): HasMany
