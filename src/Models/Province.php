@@ -2,7 +2,7 @@
 
 namespace Jericdei\PsgcDatabase\Models;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -57,6 +57,16 @@ class Province extends Model
      */
     public function getCitiesAndMunicipalities(): Collection
     {
-        return $this->cities()->get()->merge($this->municipalities()->get());
+        $cities = $this->cities->map(fn(City $city) => [
+            'code' => $city->city_code,
+            'name' => $city->name,
+        ]);
+
+        $municipalities = $this->municipalities->map(fn(Municipality $municipality) => [
+            'code' => $municipality->municipality_code,
+            'name' => $municipality->name,
+        ]);
+
+        return $municipalities->merge($cities);
     }
 }
