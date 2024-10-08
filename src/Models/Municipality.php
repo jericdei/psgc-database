@@ -4,6 +4,8 @@ namespace Jericdei\PsgcDatabase\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Municipality extends Model
 {
@@ -22,4 +24,19 @@ class Municipality extends Model
         'name',
         'old_name',
     ];
+
+    public function province(): BelongsTo
+    {
+        return $this->belongsTo(Province::class, 'province_code', 'province_code');
+    }
+
+    public function region(): BelongsTo
+    {
+        return $this->belongsTo(Region::class, 'region_code', 'region_code');
+    }
+
+    public function barangays(): HasMany
+    {
+        return $this->hasMany(Barangay::class, 'municipality_code', 'municipality_code');
+    }
 }
