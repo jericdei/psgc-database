@@ -66,7 +66,7 @@ class ConvertToDatabaseCommand extends Command
         /** @var array $worksheet */
         $worksheet = Cache::rememberForever(
             'psgc-latest',
-            fn() => SimpleExcelReader::create($file)->fromSheetName('PSGC')->getRows()->toArray()
+            fn () => SimpleExcelReader::create($file)->fromSheetName('PSGC')->getRows()->toArray()
         );
 
         $this->info('Writing to database...');
@@ -103,7 +103,7 @@ class ConvertToDatabaseCommand extends Command
                 'old_name' => $row['Old names'] ? trim($row['Old names']) : null,
             ];
 
-            DB::transaction(fn() => match ($type) {
+            DB::transaction(fn () => match ($type) {
                 'reg' => Region::create($data),
                 'prov' => Province::create($data),
                 'mun' => Municipality::create($data),
